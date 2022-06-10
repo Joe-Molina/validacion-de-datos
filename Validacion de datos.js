@@ -14,11 +14,12 @@ class pelicula{
         this.validarEstreno(estreno);
         this.validarPais(pais);
         this.validarGeneros(generos);
+        this.ValidarCalificacion(calificacion);
 
     }
 
     static get getListaGeneros(){
-        return ["accion", "drama", "comedia", "terror", "romance", "psicologico", "ciencia ficcion"];
+        return ["accion", "drama", "comedia","fantasia", "terror", "romance", "psicologico", "ciencia ficcion"];
     }
 
     static generosAceptados(){
@@ -46,6 +47,12 @@ validarNumero(propiedad, valor){
     if(typeof valor !== "number") return console.warn(`${propiedad} "${valor}" no es un numero`);
 
     return true;
+}
+
+validarNumeroNegativo(propiedad, valor){
+    if(Math.sign(valor) === -1){
+        console.log(` no se permiten numeros negativos. su ${propiedad}: "${valor}"`)
+    }
 }
 
 validarArreglo(propiedad, valor){
@@ -103,16 +110,65 @@ validarGeneros(generos){
    }
 }
 
+ValidarCalificacion(calificacion){
+    this.validarNumero("calificacion", calificacion);
+
+    this.validarNumeroNegativo("califcaion", calificacion);
+
+    if(calificacion > 10){
+        return console.warn("la calificacion no puede ser menor a 10")
+    }      
 }
 
-pelicula.generosAceptados();
+fichaTecnica(){
 
+    console.info(`Ficha tecnica:\nTitulo: "${this.titulo}"\nIMDB Id: "${this.id}"\ntitulo: "${this.titulo}"\nDirector: "${this.director}"\nEstreno: "${this.estreno}"\nPais: "${this.pais.join("-")}"\nGenero: "${this.generos.join(", ")}"\nCalificaion: "${this.calificacion}"`)
+
+}
+
+}
+/*
 const peli = new pelicula({
     id: "tt1234567",
     titulo: "titulo de la peli",
     director: "silverte escalon(o no se como se escribe xd)",
     estreno: 2014,
-    pais: ["tu mama", "el pepe"],
-    generos: ["comedia", "accion"]
+    pais: ["venezuela", "UK"],
+    generos: ["comedia", "accion"],
+    calificacion: 2.4
 })
 
+peli.fichaTecnica()
+*/
+
+const misPelis = [
+    {
+        id: "tt1234567",
+        titulo: "pocajontas",
+        director: "nombre ramdon 1",
+        estreno: 1999,
+        pais: ["USA"],
+        generos: ["comedia","romance"],
+        calificacion: 7
+    },
+    {
+        id: "tt7654321",
+        titulo: "pinocho",
+        director: "alguien x2",
+        estreno: 1994,
+        pais: ["USA"],
+        generos: ["comedia", "fantasia"],
+        calificacion: 8
+    },
+    {
+        id: "tt5671234",
+        titulo: "blanca nieves",
+        director: "no se chamo ya",
+        estreno: 1980,
+        pais: ["Australia"],
+        generos: ["fantasia"],
+        calificacion: 2
+    }
+]
+
+misPelis.forEach(el => new pelicula(el).fichaTecnica())
